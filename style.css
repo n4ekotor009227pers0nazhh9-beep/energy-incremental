@@ -18,6 +18,7 @@ body {
     max-width: 800px;
     width: 100%;
     padding: 0 20px;
+    min-height: 100vh; /* чтобы контент растягивался */
 }
 
 /* === БОКОВАЯ ПАНЕЛЬ С ВКЛАДКАМИ === */
@@ -56,6 +57,80 @@ body {
     background: #4a1a1a;
     border-color: #cc3333;
     color: #ffffff;
+}
+
+/* === РАСКРЫВАЮЩИЙСЯ СПИСОК (DROPDOWN) В САЙДБАРЕ === */
+#energy-dropdown-sidebar {
+    display: none;
+    width: 100%;
+}
+
+.dropdown-header {
+    background: #2a2a2a;
+    color: #c0c8d0;
+    border: 2px solid #4a4a5a;
+    border-radius: 3px;
+    padding: 10px 16px;
+    font-family: 'Roboto', 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-align: left;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.dropdown-header #dropdown-arrow {
+    font-size: 1.1rem;
+    transition: transform 0.15s;
+}
+
+.dropdown-header:hover {
+    background: #3a1f0a;
+    border-color: #b85a1a;
+    color: #ffffff;
+}
+
+.dropdown-header.active {
+    background: #3a1f0a;
+    border-color: #b85a1a;
+    color: #ffffff;
+}
+
+.dropdown-list {
+    background: #1e1e1e;
+    border: 1px solid #3a3a3a;
+    border-top: none;
+    border-radius: 0 0 3px 3px;
+    overflow: hidden;
+    margin-top: -4px;
+}
+
+.dropdown-list.collapsed {
+    display: none;
+}
+
+.dropdown-item {
+    padding: 8px 16px;
+    color: #c0c8d0;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+    font-size: 0.95rem;
+}
+
+.dropdown-item:hover {
+    background: #2a1a0a;
+    color: #f0a040;
+}
+
+.dropdown-item.active {
+    background: #2a1a0a;
+    color: #f0a040;
+    font-weight: 500;
 }
 
 /* === ОСНОВНОЙ КОНТЕНТ === */
@@ -125,7 +200,21 @@ body {
     text-align: center;
 }
 
-/* Сетка для кнопок */
+.subtab-content {
+    width: 100%;
+}
+
+.subtab-panel {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.subtab-panel.active {
+    display: flex;
+}
+
 .upgrades-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -140,7 +229,6 @@ body {
     align-items: center;
 }
 
-/* === КНОПКИ УЛУЧШЕНИЙ (общие) === */
 .buy-button {
     background: #2a2a2a;
     color: #e0e8f0;
@@ -149,8 +237,8 @@ body {
     width: 100%;
     max-width: 220px;
     height: 50px;
-    padding: 0;
-    font-size: 1rem;
+    padding: 0 6px;
+    font-size: 0.9rem;
     font-weight: 500;
     font-family: 'Roboto', 'Segoe UI', sans-serif;
     cursor: pointer;
@@ -162,6 +250,8 @@ body {
     justify-content: center;
     align-items: center;
     line-height: 1.2;
+    word-break: break-word;
+    overflow: hidden;
 }
 
 .buy-button:not(:disabled) {
@@ -190,15 +280,15 @@ body {
     color: #6a6a6a;
 }
 
-/* === КНОПКА ПРЕСТИЖА (белая/серая) === */
 .prestige-btn {
     background: #3a3a3a;
     border-color: #6a6a7a;
     color: #ffffff;
     height: auto;
     min-height: 50px;
-    padding: 4px 8px;
-    line-height: 1.3;
+    padding: 4px 6px;
+    line-height: 1.2;
+    font-size: 0.85rem;
 }
 
 .prestige-btn:not(:disabled):hover {
@@ -214,7 +304,6 @@ body {
     color: #6a6a6a;
 }
 
-/* === ИНФОРМАЦИЯ О ЦЕНАХ === */
 .upgrade-info {
     color: #8a8a8a;
     font-size: 0.7rem;
@@ -233,7 +322,6 @@ body {
     margin-left: 2px;
 }
 
-/* === ПОДСКАЗКА ПОД КНОПКОЙ ПРЕСТИЖА === */
 .upgrade-hint {
     color: #6a6a6a;
     font-size: 0.7rem;
@@ -241,7 +329,6 @@ body {
     text-align: center;
 }
 
-/* === ОТОБРАЖЕНИЕ КОЛИЧЕСТВА ПРЕСТИЖЕЙ === */
 #prestige-display {
     color: #8a8a8a;
     font-size: 0.9rem;
@@ -253,7 +340,6 @@ body {
     font-weight: 500;
 }
 
-/* === ОТОБРАЖЕНИЕ МНОЖИТЕЛЯ ПРЕСТИЖА === */
 #prestige-multiplier-display {
     color: #8a8a8a;
     font-size: 0.7rem;
@@ -265,29 +351,90 @@ body {
     font-weight: 500;
 }
 
-/* === DEBUG-КНОПКА === */
+/* === DEBUG-БЛОК (внизу, менее заметный) === */
 #debug-area {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
+    margin-top: auto;
+    margin-bottom: 10px;
     width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+}
+
+#debug-area:hover {
+    opacity: 1;
+}
+
+.debug-label {
+    color: #6a6a6a;
+    font-size: 0.65rem;
+    text-align: center;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+}
+
+.debug-separator {
+    width: 60%;
+    border: none;
+    border-top: 1px solid #3a3a3a;
+    opacity: 0.3;
+    margin: 0 0 8px 0;
+}
+
+.debug-buttons-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.debug-buttons-row-2 {
+    margin-top: 6px;
 }
 
 .debug-btn {
-    background: #2a2a2a;
-    color: #888;
-    border: 1px solid #4a4a4a;
-    border-radius: 3px;
-    padding: 6px 16px;
-    font-size: 0.8rem;
+    background: #1a1a1a;
+    color: #666;
+    border: 1px solid #333;
+    border-radius: 2px;
+    padding: 4px 12px;
+    font-size: 0.65rem;
     cursor: pointer;
     transition: all 0.15s ease;
 }
 
 .debug-btn:hover {
-    background: #3a3a3a;
-    color: #ccc;
-    border-color: #6a6a6a;
+    background: #2a2a2a;
+    color: #999;
+    border-color: #555;
+}
+
+.debug-btn:active,
+.debug-btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.debug-prestige-btn {
+    background: #1a1a1a;
+    color: #888;
+    border: 1px solid #333;
+}
+
+.debug-prestige-btn:hover {
+    background: #2a2a2a;
+    color: #aaa;
+    border-color: #555;
+}
+
+.debug-prestige-btn:active,
+.debug-prestige-btn:focus {
+    background: #1a1a1a;
+    border-color: #333;
+    outline: none;
+    box-shadow: none;
 }
 
 /* === ВКЛАДКА АВТОМАТИКИ === */

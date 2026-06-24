@@ -31,26 +31,58 @@
                     <hr id="separator">
 
                     <div id="energy-upgrades">
-                        <p class="upgrade-title">Покупка улучшений:</p>
+                        <p class="upgrade-title">Покупка улучшений Энергии</p>
 
                         <div class="upgrades-grid">
                             <!-- Улучшение 1 -->
                             <div class="upgrade-item">
-                                <button class="buy-button" id="prod-upgrade-btn">*10 Э / сек.</button>
+                                <button class="buy-button" id="prod-upgrade-btn">
+                                    *10&nbsp;<span class="energy-gold">Энергии</span>&nbsp;/ сек.
+                                </button>
                                 <div class="upgrade-info">
-                                    Цена: <span id="prod-price">1</span> Э | Следующая: <span id="prod-next-price">15</span> Э <span class="multiplier-hint">(*15)</span>
+                                    Цена: <span class="energy-gold"><span id="prod-price">1</span> Э</span> | Следующая: <span class="energy-gold"><span id="prod-next-price">15</span> Э</span> <span class="multiplier-hint">(*15)</span>
                                 </div>
-                                <div class="upgrade-hint">Увеличивает производство в 10 раз</div>
                             </div>
 
                             <!-- Улучшение 2 -->
                             <div class="upgrade-item">
                                 <button class="buy-button" id="interval-upgrade-btn">Уменьшить интервал на 5% (<span id="interval-count">0</span>/10)</button>
                                 <div class="upgrade-info">
-                                    Цена: <span id="interval-price">5</span> Э | Следующая: <span id="interval-next-price">20</span> Э <span class="multiplier-hint">(*20)</span>
+                                    Цена: <span class="energy-gold"><span id="interval-price">5</span> Э</span> | Следующая: <span class="energy-gold"><span id="interval-next-price">20</span> Э</span> <span class="multiplier-hint">(*20)</span>
                                 </div>
-                                <div class="upgrade-hint">Уменьшает интервал между тиками на 5% (макс. 10 раз)</div>
                             </div>
+
+                            <!-- Улучшение 3 (пассивная генерация) -->
+                            <div class="upgrade-item">
+                                <button class="buy-button" id="passive-upgrade-btn">
+                                    Пассивная генерация +5% от роста <span class="energy-gold">Энергии</span> (<span id="passive-count">0</span>/<span id="passive-max-display">5</span>)
+                                </button>
+                                <div class="upgrade-info">
+                                    Цена: <span class="energy-gold"><span id="passive-price">1 000 000</span> Э</span> | Следующая: <span class="energy-gold"><span id="passive-next-price">1 000 000</span> Э</span> <span class="multiplier-hint">(^1.1)</span>
+                                </div>
+                            </div>
+
+                            <!-- Улучшение 4 (престиж) - изначально скрыто -->
+                            <div class="upgrade-item" id="prestige-item" style="display: none;">
+                                <button class="buy-button prestige-btn" id="prestige-upgrade-btn">
+                                    Создать престиж<br>
+                                    +1 лимит пассивной автоматики
+                                </button>
+                                <div class="upgrade-info">
+                                    Цена: <span class="energy-gold"><span id="prestige-price">5e9</span> Э</span> | Следующая: <span class="energy-gold"><span id="prestige-next-price">5e11</span> Э</span> <span class="multiplier-hint">(*100)</span>
+                                </div>
+                                <div class="upgrade-hint">Сбросить улучшения и энергию, увеличить лимит</div>
+                            </div>
+                        </div>
+
+                        <!-- ОТОБРАЖЕНИЕ КОЛИЧЕСТВА ПРЕСТИЖЕЙ -->
+                        <div id="prestige-display" style="display: none;"></div>
+                        <!-- ОТОБРАЖЕНИЕ МНОЖИТЕЛЯ ПРЕСТИЖА -->
+                        <div id="prestige-multiplier-display" style="display: none;"></div>
+
+                        <!-- DEBUG-КНОПКА -->
+                        <div id="debug-area">
+                            <button class="debug-btn" id="debug-boost-btn">*10 к росту (тест)</button>
                         </div>
                     </div>
                 </div>
@@ -60,6 +92,10 @@
                     <p id="automation-message">
                         <span class="red-accent">[А1]</span> 
                         <span id="auto-text">вы получаете <span class="energy-gold">+0.1 Э</span> / 1.0 с</span>
+                    </p>
+                    <p id="automation-passive" style="display: none;">
+                        <span class="red-accent">[А2]</span> 
+                        <span id="auto-passive-text">вы пассивно получаете +0% к вашему росту</span>
                     </p>
                 </div>
 

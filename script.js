@@ -42,6 +42,8 @@ const prestigePriceSpan = document.getElementById('prestige-price');
 const prestigeNextPriceSpan = document.getElementById('prestige-next-price');
 const prestigeDisplay = document.getElementById('prestige-display');
 const prestigeMultiplierDisplay = document.getElementById('prestige-multiplier-display');
+const prestigeMultiplierText = document.getElementById('prestige-multiplier-text');
+const prestigeHint = document.getElementById('prestige-hint');
 const autoTextSpan = document.getElementById('auto-text');
 const autoPassiveTextSpan = document.getElementById('auto-passive-text');
 const autoPassiveContainer = document.getElementById('automation-passive');
@@ -65,7 +67,6 @@ const subtabPanels = {
     columns: document.getElementById('subtab-columns'),
     dimensions: document.getElementById('subtab-dimensions')
 };
-
 const energyDisplayBlock = document.getElementById('energy-display');
 const separatorLine = document.getElementById('separator');
 
@@ -148,10 +149,23 @@ function switchTab(tabId) {
 
 function updateUI() {
     const active = getActiveTab();
-    energyDisplay.textContent = formatNumber(game.energy);
+    
+    // === ОБНОВЛЯЕМ ЭНЕРГИЮ ВО ВСЕХ МЕСТАХ ===
+    const allEnergyDisplays = document.querySelectorAll('#energy-amount');
+    allEnergyDisplays.forEach(el => {
+        el.textContent = formatNumber(game.energy);
+    });
+
     passiveMaxDisplaySpan.textContent = game.passiveMaxCount;
 
-    // Сайдбар
+    // === УПРАВЛЕНИЕ КЛАССОМ ДЛЯ ОТСТУПА ПРИ ПРЕСТИЖАХ ===
+    const upgradesContainer = document.getElementById('energy-upgrades');
+    if (game.prestigeCount >= 1) {
+        upgradesContainer.classList.add('has-prestige');
+    } else {
+        upgradesContainer.classList.remove('has-prestige');
+    }
+
     const showDropdown = (game.prestigeCount >= 5);
     if (showDropdown) {
         energyTabButton.style.display = 'none';
@@ -183,7 +197,6 @@ function updateUI() {
         }
     }
 
-    // Содержимое вкладки Энергия
     if (active === 'energy') {
         const isDimensions = (selectedSubtab === 'dimensions');
         if (isDimensions) {
@@ -194,12 +207,10 @@ function updateUI() {
             separatorLine.style.display = 'block';
         }
 
-        // Улучшение 1
         prodPriceSpan.textContent = formatNumber(game.prodPrice);
         prodNextPriceSpan.textContent = formatNumber(game.prodPrice * game.prodPriceMultiplier);
         prodBtn.disabled = (game.energy < game.prodPrice);
 
-        // Улучшение 2
         intervalCountSpan.textContent = game.intervalUpgradeCount;
         intervalPriceSpan.textContent = formatNumber(game.intervalPrice);
         intervalNextPriceSpan.textContent = formatNumber(game.intervalPrice * game.intervalPriceMultiplier);
@@ -214,7 +225,6 @@ function updateUI() {
             intervalBtn.textContent = `Уменьшить интервал на 5% (${game.intervalUpgradeCount}/10) [${formatInterval(currentInterval)} → ${nextDisplay}]`;
         }
 
-        // Улучшение 3
         passiveCountSpan.textContent = game.passiveCount;
         passivePriceSpan.textContent = formatNumber(game.passivePrice);
         const nextPassivePrice = Math.pow(game.passivePrice, game.passivePriceExponent);
@@ -229,7 +239,6 @@ function updateUI() {
             passiveBtn.textContent = `Пассивная генерация +5% от роста Энергии (${game.passiveCount}/${game.passiveMaxCount})`;
         }
 
-        // Престиж
         const showPrestige = reachedLimit || (game.prestigeCount >= 1);
         if (showPrestige) {
             prestigeItem.style.display = 'flex';
@@ -238,15 +247,14 @@ function updateUI() {
             const canPrestige = reachedLimit && (game.energy >= game.prestigePrice);
             prestigeBtn.disabled = !canPrestige;
             if (reachedLimit) {
-                prestigeBtn.innerHTML = `Создать престиж<br>(сброс и +1 к лимиту)`;
+                prestigeBtn.innerHTML = `Создать престиж`;
             } else {
-                prestigeBtn.innerHTML = `Престиж (нужно достичь лимита ${game.passiveMaxCount})<br>(сброс и +1 к лимиту)`;
+                prestigeBtn.innerHTML = `Престиж (нужно достичь лимита ${game.passiveMaxCount})`;
             }
         } else {
             prestigeItem.style.display = 'none';
         }
 
-        // Престижи и множитель
         if (game.prestigeCount >= 1) {
             const word = getPrestigeWord(game.prestigeCount);
             prestigeDisplay.style.display = 'block';
@@ -257,12 +265,19 @@ function updateUI() {
 
         if (game.prestigeCount >= 1) {
             prestigeMultiplierDisplay.style.display = 'block';
-            prestigeMultiplierDisplay.innerHTML = `Рост увеличен в 1.03<sup>${game.prestigeCount}</sup> раз`;
+            const mult = game.prestigeMultiplier;
+            const multStr = formatNumber(mult);
+            prestigeMultiplierText.innerHTML = `Рост увеличен в 1.03<sup>${game.prestigeCount}</sup> раз <span style="color: #6a6a6a;">(*${multStr})</span> - за счёт Престижей`;
+            if (game.prestigeCount < 5) {
+                prestigeHint.textContent = 'На 5 престижах откроется вкладка Измерений Энергии';
+                prestigeHint.style.display = 'block';
+            } else {
+                prestigeHint.style.display = 'none';
+            }
         } else {
             prestigeMultiplierDisplay.style.display = 'none';
         }
 
-        // Переключение панелей подразделов
         Object.keys(subtabPanels).forEach(key => {
             subtabPanels[key].classList.remove('active');
         });
@@ -271,7 +286,6 @@ function updateUI() {
         }
     }
 
-    // Автоматика
     if (active === 'automation') {
         const productionPerTick = getProductionPerTick();
         let intervalDisplay;
@@ -280,7 +294,7 @@ function updateUI() {
         } else {
             intervalDisplay = Math.round(game.interval) + ' мс';
         }
-        autoTextSpan.innerHTML = `вы получаете <span class="energy-gold">+${formatNumber(productionPerTick)} Э</span> / ${intervalDisplay}`;
+        autoTextSpan.textContent = `вы получаете +${formatNumber(productionPerTick)} Э / ${intervalDisplay}`;
 
         const showPassive = (game.passiveCount > 0) || (game.prestigeCount >= 1);
         if (showPassive) {
@@ -352,18 +366,15 @@ function buyPrestige() {
     performPrestige();
 }
 
-// === DEBUG-БУСТЫ ===
+// === DEBUG ===
 function debugBoost(multiplier) {
     game.productionMultiplier *= multiplier;
     updateUI();
     console.log(`Debug: productionMultiplier умножен на ${multiplier}, теперь =`, game.productionMultiplier);
 }
 
-// === ТЕСТОВЫЕ ПРЕСТИЖИ (с полным сбросом) ===
 function addPrestige(count) {
-    // Выполняем обычный престиж (сброс и +1)
     performPrestige();
-    // Добавляем (count - 1) дополнительных престижей без сброса
     for (let i = 0; i < count - 1; i++) {
         game.prestigeCount++;
         game.prestigeMultiplier *= 1.03;
@@ -375,9 +386,7 @@ function addPrestige(count) {
     console.log(`Debug: добавлено ${count} престижей (с полным сбросом), теперь prestigeCount = ${game.prestigeCount}`);
 }
 
-// === ТАЙМЕР ===
 let timer = null;
-
 function startGameLoop() {
     if (timer) clearInterval(timer);
     timer = setInterval(() => {
@@ -387,20 +396,17 @@ function startGameLoop() {
     }, game.interval);
 }
 
-// === УПРАВЛЕНИЕ СВОРАЧИВАНИЕМ ===
 function toggleDropdown() {
     isDropdownExpanded = !isDropdownExpanded;
     updateUI();
 }
 
-// === ВЫБОР ПОДРАЗДЕЛА ===
 function selectSubtab(subtabId) {
     selectedSubtab = subtabId;
     switchTab('energy');
     updateUI();
 }
 
-// === ИНИЦИАЛИЗАЦИЯ ===
 document.addEventListener('DOMContentLoaded', function() {
     const tabs = document.querySelectorAll('.tab-button');
     tabs.forEach(tab => {
@@ -435,11 +441,9 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         const currentCount = game.prestigeCount;
-        // Сначала выполняем обычный престиж (сброс и +1)
-        performPrestige();
-        // Добавляем (currentCount * 10 - 1) дополнительных престижей
-        const extra = currentCount * 10 - 1;
-        for (let i = 0; i < extra; i++) {
+        const target = currentCount * 10;
+        const diff = target - currentCount;
+        for (let i = 0; i < diff; i++) {
             game.prestigeCount++;
             game.prestigeMultiplier *= 1.03;
             game.passiveMaxCount += 1;

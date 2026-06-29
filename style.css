@@ -1,6 +1,6 @@
-/* === ГЛОБАЛЬНЫЙ ФОН === */
+/* === ГЛОБАЛЬНЫЙ ФОН (чёрный) === */
 body {
-    background-color: #131313;
+    background-color: #000000;
     margin: 0;
     min-height: 100vh;
     display: flex;
@@ -18,7 +18,7 @@ body {
     max-width: 800px;
     width: 100%;
     padding: 0 20px;
-    min-height: 100vh; /* чтобы контент растягивался */
+    min-height: 100vh;
 }
 
 /* === БОКОВАЯ ПАНЕЛЬ С ВКЛАДКАМИ === */
@@ -31,9 +31,6 @@ body {
 }
 
 .tab-button {
-    background: #2a2a2a;
-    color: #c0c8d0;
-    border: 2px solid #4a4a5a;
     border-radius: 3px;
     padding: 10px 16px;
     font-family: 'Roboto', 'Segoe UI', sans-serif;
@@ -43,32 +40,42 @@ body {
     transition: all 0.15s ease;
     text-align: left;
     letter-spacing: 0.3px;
+    border: 2px solid;
+    background: #1a1a1a;
+    color: #ffffff;
 }
 
+.tab-button[data-tab="energy"] {
+    border-color: #b85a1a;
+}
 .tab-button[data-tab="energy"]:hover,
 .tab-button.active[data-tab="energy"] {
-    background: #3a1f0a;
+    background: #b85a1a;
     border-color: #b85a1a;
-    color: #ffffff;
+    color: #000000;
+    font-weight: 700;
 }
 
+.tab-button[data-tab="automation"] {
+    border-color: #cc3333;
+}
 .tab-button[data-tab="automation"]:hover,
 .tab-button.active[data-tab="automation"] {
-    background: #4a1a1a;
+    background: #cc3333;
     border-color: #cc3333;
-    color: #ffffff;
+    color: #000000;
+    font-weight: 700;
 }
 
-/* === РАСКРЫВАЮЩИЙСЯ СПИСОК (DROPDOWN) В САЙДБАРЕ === */
+/* === РАСКРЫВАЮЩИЙСЯ СПИСОК === */
 #energy-dropdown-sidebar {
     display: none;
     width: 100%;
 }
 
 .dropdown-header {
-    background: #2a2a2a;
-    color: #c0c8d0;
-    border: 2px solid #4a4a5a;
+    background: #1a1a1a;
+    border: 2px solid #b85a1a;
     border-radius: 3px;
     padding: 10px 16px;
     font-family: 'Roboto', 'Segoe UI', sans-serif;
@@ -82,55 +89,47 @@ body {
     display: flex;
     align-items: center;
     gap: 8px;
+    color: #ffffff;
 }
-
 .dropdown-header #dropdown-arrow {
     font-size: 1.1rem;
     transition: transform 0.15s;
 }
-
-.dropdown-header:hover {
-    background: #3a1f0a;
-    border-color: #b85a1a;
-    color: #ffffff;
-}
-
+.dropdown-header:hover,
 .dropdown-header.active {
-    background: #3a1f0a;
+    background: #b85a1a;
     border-color: #b85a1a;
-    color: #ffffff;
+    color: #000000;
+    font-weight: 700;
 }
 
 .dropdown-list {
-    background: #1e1e1e;
-    border: 1px solid #3a3a3a;
-    border-top: none;
-    border-radius: 0 0 3px 3px;
-    overflow: hidden;
-    margin-top: -4px;
+    background: transparent;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 2px;
 }
-
 .dropdown-list.collapsed {
     display: none;
 }
 
 .dropdown-item {
+    background: #1a1a1a;
+    border: 2px solid #b85a1a;
+    border-radius: 3px;
     padding: 8px 16px;
-    color: #c0c8d0;
+    color: #ffffff;
     cursor: pointer;
     transition: background 0.15s, color 0.15s;
     font-size: 0.95rem;
 }
-
-.dropdown-item:hover {
-    background: #2a1a0a;
-    color: #f0a040;
-}
-
+.dropdown-item:hover,
 .dropdown-item.active {
-    background: #2a1a0a;
-    color: #f0a040;
-    font-weight: 500;
+    background: #b85a1a;
+    color: #000000;
+    font-weight: 700;
 }
 
 /* === ОСНОВНОЙ КОНТЕНТ === */
@@ -163,7 +162,6 @@ body {
     align-items: center;
     width: 100%;
 }
-
 .tab-panel.active {
     display: flex;
 }
@@ -177,7 +175,6 @@ body {
     margin-bottom: 0;
     padding-bottom: 6px;
 }
-
 #energy-amount {
     color: #f0a040;
     font-weight: 700;
@@ -200,17 +197,19 @@ body {
     text-align: center;
 }
 
+#energy-upgrades.has-prestige .upgrade-title {
+    margin-top: 20px;
+}
+
 .subtab-content {
     width: 100%;
 }
-
 .subtab-panel {
     display: none;
     flex-direction: column;
     align-items: center;
     width: 100%;
 }
-
 .subtab-panel.active {
     display: flex;
 }
@@ -222,17 +221,17 @@ body {
     width: 100%;
     max-width: 600px;
 }
-
 .upgrade-item {
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.buy-button {
-    background: #2a2a2a;
-    color: #e0e8f0;
-    border: 3px solid #4a4a5a;
+/* === КНОПКИ В РАЗДЕЛЕ "КОЛОНКИ УЛУЧШЕНИЙ ЭНЕРГИИ" === */
+.upgrades-grid .buy-button {
+    background: #1a1a1a;
+    color: #ffffff;
+    border: 3px solid #b85a1a;
     border-radius: 3px;
     width: 100%;
     max-width: 220px;
@@ -242,7 +241,7 @@ body {
     font-weight: 500;
     font-family: 'Roboto', 'Segoe UI', sans-serif;
     cursor: pointer;
-    transition: background 0.15s ease, border-color 0.15s ease;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
     letter-spacing: 0.3px;
     text-align: center;
     box-shadow: none;
@@ -254,54 +253,45 @@ body {
     overflow: hidden;
 }
 
-.buy-button:not(:disabled) {
-    background: #3a1f0a;
-    border-color: #b85a1a;
-    color: #ffffff;
+.upgrades-grid .buy-button:not(:disabled):not(:hover) {
+    box-shadow: inset 0 0 8px 4px rgba(184, 90, 26, 0.75);
 }
 
-.buy-button:not(:disabled):hover {
-    background: #3a1f0a;
+.upgrades-grid .buy-button:not(:disabled):hover {
+    background: #b85a1a;
     border-color: #b85a1a;
-    color: #ffffff;
+    color: #000000;
+    box-shadow: none;
+    font-weight: 700;
 }
 
-.buy-button:disabled {
-    opacity: 0.5;
+.upgrades-grid .buy-button:disabled {
+    opacity: 1;
     cursor: not-allowed;
     background: #1a1a1a;
     border-color: #3a3a3a;
-    color: #6a6a6a;
+    color: #888888;
+    box-shadow: none;
 }
-
-.buy-button:disabled:hover {
+.upgrades-grid .buy-button:disabled:hover {
     background: #1a1a1a;
     border-color: #3a3a3a;
-    color: #6a6a6a;
+    color: #888888;
+    box-shadow: none;
 }
 
-.prestige-btn {
-    background: #3a3a3a;
+.upgrades-grid .prestige-btn {
     border-color: #6a6a7a;
-    color: #ffffff;
-    height: auto;
-    min-height: 50px;
-    padding: 4px 6px;
-    line-height: 1.2;
-    font-size: 0.85rem;
 }
-
-.prestige-btn:not(:disabled):hover {
-    background: #4a4a5a;
-    border-color: #8a8a9a;
+.upgrades-grid .prestige-btn:not(:disabled):not(:hover) {
+    box-shadow: inset 0 0 8px 4px rgba(184, 90, 26, 0.75);
 }
-
-.prestige-btn:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    background: #2a2a2a;
-    border-color: #4a4a4a;
-    color: #6a6a6a;
+.upgrades-grid .prestige-btn:not(:disabled):hover {
+    background: #6a6a7a;
+    border-color: #6a6a7a;
+    color: #000000;
+    box-shadow: none;
+    font-weight: 700;
 }
 
 .upgrade-info {
@@ -310,18 +300,11 @@ body {
     margin-top: 4px;
     text-align: center;
 }
-
-.upgrade-info span {
-    color: #f0a040;
-    font-weight: 500;
-}
-
 .upgrade-info .multiplier-hint {
     color: #6a6a6a !important;
     font-size: 0.7rem;
     margin-left: 2px;
 }
-
 .upgrade-hint {
     color: #6a6a6a;
     font-size: 0.7rem;
@@ -329,6 +312,73 @@ body {
     text-align: center;
 }
 
+/* === ИЗМЕРЕНИЯ === */
+.dimension-item {
+    background: #1e1e1e;
+    border: 1px solid #2a2a2a;
+    border-radius: 3px;
+    padding: 8px 12px;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 75%;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.dimension-item .dim-count {
+    font-weight: 700;
+    margin: 0 8px;
+}
+
+.dim-buttons {
+    display: flex;
+    gap: 6px;
+    flex: 0 0 32%;
+    min-width: 32%;
+    justify-content: flex-end;
+}
+
+.dim-btn-plus,
+.dim-btn-max {
+    min-width: 0;
+    height: 30px;
+    font-size: 0.75rem;
+    padding: 0 10px;
+    border-radius: 3px;
+    border: 1px solid #4a4a5a;
+    background: #1a1a1a;
+    color: #e0e8f0;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+    font-family: 'Roboto', 'Segoe UI', sans-serif;
+    font-weight: 500;
+    text-align: center;
+}
+
+.dim-btn-plus {
+    flex: 2;
+}
+.dim-btn-max {
+    flex: 3;
+}
+
+.dim-btn-plus:hover,
+.dim-btn-max:hover {
+    background: #3a3a3a;
+    border-color: #6a6a7a;
+    color: #ffffff;
+}
+
+.dim-btn-plus:active,
+.dim-btn-max:active {
+    transform: scale(0.97);
+}
+
+/* === ОТОБРАЖЕНИЕ ПРЕСТИЖЕЙ И МНОЖИТЕЛЯ === */
 #prestige-display {
     color: #8a8a8a;
     font-size: 0.9rem;
@@ -339,7 +389,6 @@ body {
     color: #ffffff;
     font-weight: 500;
 }
-
 #prestige-multiplier-display {
     color: #8a8a8a;
     font-size: 0.7rem;
@@ -350,8 +399,13 @@ body {
     color: #ffffff;
     font-weight: 500;
 }
+#prestige-hint {
+    color: #6a6a6a;
+    font-size: 0.7rem;
+    margin-top: 2px;
+}
 
-/* === DEBUG-БЛОК (внизу, менее заметный) === */
+/* === DEBUG-БЛОК === */
 #debug-area {
     margin-top: auto;
     margin-bottom: 10px;
@@ -362,11 +416,9 @@ body {
     opacity: 0.6;
     transition: opacity 0.2s;
 }
-
 #debug-area:hover {
     opacity: 1;
 }
-
 .debug-label {
     color: #6a6a6a;
     font-size: 0.65rem;
@@ -374,7 +426,6 @@ body {
     margin-bottom: 4px;
     letter-spacing: 0.3px;
 }
-
 .debug-separator {
     width: 60%;
     border: none;
@@ -382,18 +433,15 @@ body {
     opacity: 0.3;
     margin: 0 0 8px 0;
 }
-
 .debug-buttons-row {
     display: flex;
     gap: 10px;
     justify-content: center;
     flex-wrap: wrap;
 }
-
 .debug-buttons-row-2 {
     margin-top: 6px;
 }
-
 .debug-btn {
     background: #1a1a1a;
     color: #666;
@@ -404,31 +452,26 @@ body {
     cursor: pointer;
     transition: all 0.15s ease;
 }
-
 .debug-btn:hover {
     background: #2a2a2a;
     color: #999;
     border-color: #555;
 }
-
 .debug-btn:active,
 .debug-btn:focus {
     outline: none;
     box-shadow: none;
 }
-
 .debug-prestige-btn {
     background: #1a1a1a;
     color: #888;
     border: 1px solid #333;
 }
-
 .debug-prestige-btn:hover {
     background: #2a2a2a;
     color: #aaa;
     border-color: #555;
 }
-
 .debug-prestige-btn:active,
 .debug-prestige-btn:focus {
     background: #1a1a1a;
@@ -449,17 +492,10 @@ body {
     margin: 0;
     padding: 0;
 }
-
 #automation-passive {
     margin-top: 8px;
 }
-
 .red-accent {
     color: #cc3333;
-    font-weight: 700;
-}
-
-.energy-gold {
-    color: #f0a040;
     font-weight: 700;
 }

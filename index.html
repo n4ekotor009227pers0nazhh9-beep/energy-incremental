@@ -20,8 +20,8 @@
                     <span id="dropdown-arrow">▾</span> Энергия
                 </div>
                 <div class="dropdown-list" id="dropdown-list-sidebar">
-                    <div class="dropdown-item active" data-subtab="columns">Колонки Энергии</div>
-                    <div class="dropdown-item" data-subtab="dimensions">Измерения Энергии</div>
+                    <div class="dropdown-item active" data-subtab="columns">&nbsp;&nbsp;| Колонки Энергии</div>
+                    <div class="dropdown-item" data-subtab="dimensions">&nbsp;&nbsp;| Измерения Энергии</div>
                 </div>
             </div>
 
@@ -44,60 +44,107 @@
                         <div class="subtab-content">
                             <!-- ПАНЕЛЬ "КОЛОНКИ" -->
                             <div id="subtab-columns" class="subtab-panel active">
-                                <p class="upgrade-title">Покупка улучшений Энергии</p>
+                                
+                                <!-- ОТОБРАЖЕНИЕ ПРЕСТИЖЕЙ И МНОЖИТЕЛЯ -->
+                                <div id="prestige-display" style="display: none;"></div>
+                                <div id="prestige-multiplier-display" style="display: none;">
+                                    <div id="prestige-multiplier-text"></div>
+                                    <div id="prestige-hint" style="color: #6a6a6a; font-size: 0.7rem; margin-top: 2px;"></div>
+                                </div>
+
+                                <p class="upgrade-title">Колонки улучшений Энергии</p>
 
                                 <div class="upgrades-grid">
-                                    <!-- Улучшение 1 -->
                                     <div class="upgrade-item">
                                         <button class="buy-button" id="prod-upgrade-btn">
-                                            *10&nbsp;<span class="energy-gold">Энергии</span>&nbsp;/ сек.
+                                            *10 Энергии / сек.
                                         </button>
                                         <div class="upgrade-info">
-                                            Цена: <span class="energy-gold"><span id="prod-price">1</span> Э</span> | Следующая: <span class="energy-gold"><span id="prod-next-price">15</span> Э</span> <span class="multiplier-hint">(*15)</span>
+                                            Цена: <span id="prod-price">1</span> Э | Следующая: <span id="prod-next-price">15</span> Э <span class="multiplier-hint">(*15)</span>
                                         </div>
                                     </div>
 
-                                    <!-- Улучшение 2 -->
                                     <div class="upgrade-item">
                                         <button class="buy-button" id="interval-upgrade-btn">Уменьшить интервал на 5% (<span id="interval-count">0</span>/10)</button>
                                         <div class="upgrade-info">
-                                            Цена: <span class="energy-gold"><span id="interval-price">5</span> Э</span> | Следующая: <span class="energy-gold"><span id="interval-next-price">20</span> Э</span> <span class="multiplier-hint">(*20)</span>
+                                            Цена: <span id="interval-price">5</span> Э | Следующая: <span id="interval-next-price">20</span> Э <span class="multiplier-hint">(*20)</span>
                                         </div>
                                     </div>
 
-                                    <!-- Улучшение 3 -->
                                     <div class="upgrade-item">
                                         <button class="buy-button" id="passive-upgrade-btn">
-                                            Пассивная генерация +5% от роста <span class="energy-gold">Энергии</span> (<span id="passive-count">0</span>/<span id="passive-max-display">5</span>)
+                                            Пассивная генерация +5% от роста Энергии (<span id="passive-count">0</span>/<span id="passive-max-display">5</span>)
                                         </button>
                                         <div class="upgrade-info">
-                                            Цена: <span class="energy-gold"><span id="passive-price">1 000 000</span> Э</span> | Следующая: <span class="energy-gold"><span id="passive-next-price">1 000 000</span> Э</span> <span class="multiplier-hint">(^1.1)</span>
+                                            Цена: <span id="passive-price">1 000 000</span> Э | Следующая: <span id="passive-next-price">1 000 000</span> Э <span class="multiplier-hint">(^1.1)</span>
                                         </div>
                                     </div>
 
-                                    <!-- Улучшение 4 (престиж) -->
                                     <div class="upgrade-item" id="prestige-item" style="display: none;">
                                         <button class="buy-button prestige-btn" id="prestige-upgrade-btn">
-                                            Создать престиж<br>
-                                            (сброс и +1 к лимиту)
+                                            Создать престиж
                                         </button>
                                         <div class="upgrade-info">
-                                            Цена: <span class="energy-gold"><span id="prestige-price">5e9</span> Э</span> | Следующая: <span class="energy-gold"><span id="prestige-next-price">5e10</span> Э</span> <span class="multiplier-hint">(*10)</span>
+                                            Цена: <span id="prestige-price">5e9</span> Э | Следующая: <span id="prestige-next-price">5e10</span> Э <span class="multiplier-hint">(*10)</span>
                                         </div>
-                                        <div class="upgrade-hint">Сбросить улучшения и энергию, увеличить лимит</div>
+                                        <div class="upgrade-hint">Сбросить весь прогресс, но получить небольшой бонус</div>
                                     </div>
                                 </div>
 
-                                <!-- ОТОБРАЖЕНИЕ ПРЕСТИЖЕЙ И МНОЖИТЕЛЯ -->
-                                <div id="prestige-display" style="display: none;"></div>
-                                <div id="prestige-multiplier-display" style="display: none;"></div>
                             </div>
 
                             <!-- ПАНЕЛЬ "ИЗМЕРЕНИЯ" -->
                             <div id="subtab-dimensions" class="subtab-panel">
-                                <p style="color: #e0e8f0; text-align: center; padding: 20px 0; font-size: 1.1rem;">
-                                    Этот раздел в разработке
-                                </p>
+                                <div id="energy-display">
+                                    У вас <span id="energy-amount">0.0</span> Энергии
+                                </div>
+                                <hr id="separator">
+                                <div style="width: 100%;">
+                                    <p style="color: #e0e8f0; text-align: center; padding: 10px 0; font-size: 1rem;">
+                                        Измерения Энергии <b>[В РАЗРАБОТКЕ]</b>
+                                    </p>
+                                    <div id="dimensions-list">
+                                        <div class="dimension-item" data-id="1">
+                                            <span style="color: #e0e8f0;">Измерение 1</span>
+                                            <span style="color: #f0a040;" class="dim-count">0</span>
+                                            <div class="dim-buttons">
+                                                <button class="buy-button dim-btn-plus">+1</button>
+                                                <button class="buy-button dim-btn-max">Макс.</button>
+                                            </div>
+                                        </div>
+                                        <div class="dimension-item" data-id="2">
+                                            <span style="color: #e0e8f0;">Измерение 2</span>
+                                            <span style="color: #f0a040;" class="dim-count">0</span>
+                                            <div class="dim-buttons">
+                                                <button class="buy-button dim-btn-plus">+1</button>
+                                                <button class="buy-button dim-btn-max">Макс.</button>
+                                            </div>
+                                        </div>
+                                        <div class="dimension-item" data-id="3">
+                                            <span style="color: #e0e8f0;">Измерение 3</span>
+                                            <span style="color: #f0a040;" class="dim-count">0</span>
+                                            <div class="dim-buttons">
+                                                <button class="buy-button dim-btn-plus">+1</button>
+                                                <button class="buy-button dim-btn-max">Макс.</button>
+                                            </div>
+                                        </div>
+                                        <div class="dimension-item" style="opacity: 0.4; pointer-events: none;">
+                                            <span style="color: #e0e8f0;">Измерение 4 (заблокировано)</span>
+                                        </div>
+                                        <div class="dimension-item" style="opacity: 0.4; pointer-events: none;">
+                                            <span style="color: #e0e8f0;">Измерение 5 (заблокировано)</span>
+                                        </div>
+                                        <div class="dimension-item" style="opacity: 0.4; pointer-events: none;">
+                                            <span style="color: #e0e8f0;">Измерение 6 (заблокировано)</span>
+                                        </div>
+                                        <div class="dimension-item" style="opacity: 0.4; pointer-events: none;">
+                                            <span style="color: #e0e8f0;">Измерение 7 (заблокировано)</span>
+                                        </div>
+                                        <div class="dimension-item" style="opacity: 0.4; pointer-events: none;">
+                                            <span style="color: #e0e8f0;">Измерение 8 (заблокировано)</span>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -105,9 +152,13 @@
 
                 <!-- ВКЛАДКА "АВТОМАТИКА" -->
                 <div id="tab-automation" class="tab-panel">
+                    <div id="energy-display">
+                        У вас <span id="energy-amount">0.0</span> Энергии
+                    </div>
+                    <hr id="separator">
                     <p id="automation-message">
                         <span class="red-accent">[А1]</span> 
-                        <span id="auto-text">вы получаете <span class="energy-gold">+0.1 Э</span> / 1.0 с</span>
+                        <span id="auto-text">вы получаете +0.1 Э / 1.0 с</span>
                     </p>
                     <p id="automation-passive" style="display: none;">
                         <span class="red-accent">[А2]</span> 
@@ -117,7 +168,7 @@
 
             </div> <!-- конец #tab-content -->
 
-            <!-- DEBUG-БЛОК (перемещён в самый низ) -->
+            <!-- DEBUG-БЛОК -->
             <div id="debug-area">
                 <div class="debug-label">ТОЛЬКО ДЛЯ ТЕСТИРОВЩИКОВ!!!</div>
                 <hr class="debug-separator">
